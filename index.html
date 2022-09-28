@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    .gmap_canvas {
+        overflow:hidden;
+        background:none!important;
+        height:500px;
+        width:600px;
+    }
+    #box{
+        display: flex;
+        justify-content: space-between;
+    }
+    #main{
+        width: 70%;
+        margin: auto;
+
+    }
+    body{
+        background-color:lightblue ;
+    }
+    </style>
+</head>
+<body>
+    <div id="main">
+    <input type="text" id="city">
+    <button onclick="getCity()">Search City</button>
+  <div id="box">  
+    <div id="container"></div>
+    <div class="mapouter">
+        <div class="gmap_canvas">
+            <iframe width="600"
+             height="500"
+              id="gmap_canvas"
+               src="https://maps.google.com/maps?q=pune&t=&z=13&ie=UTF8&iwloc=&output=embed" 
+               frameborder="0" 
+               scrolling="no" 
+               marginheight="0" 
+               marginwidth="0">
+            </iframe>
+        </div>
+    </div>
+  </div> 
+    </div>
+    
+</body>
+<script>
+
+    // const dimg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQS7ktvIgwYFtlH55QGXDosKnvKj2kINzBsPA&usqp=CAU"
+    const key="0f729930e9761134620ffc59128b4768"
+    async function getCity()
+    {
+        var city=document.querySelector("#city").value;
+        var url=`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=0f729930e9761134620ffc59128b4768`;
+        // console.log(url)
+        let res=await fetch(url);
+        let data=await res.json();
+        console.log(data)
+        append(data,city)
+    }
+    function append(data,city,dimg){
+        var container=document.querySelector("#container");
+        container.innerHTML="";
+        let image=document.createElement("img");
+        image.src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQS7ktvIgwYFtlH55QGXDosKnvKj2kINzBsPA&usqp=CAU";
+        let name=document.createElement("h3");
+        name.innerText=data.name;
+        var p1=document.createElement("p");
+        p1.innerText=`Current temp: ${data.main.temp}`;
+        let p2=document.createElement("p");
+        p2.innerText=`Max temp: ${data.main.temp_max}`;
+        let p3=document.createElement("p");
+        p3.innerText=`Min temp: ${data.main.temp_min}`;
+        let p4=document.createElement("p");
+        p4.innerText=`Clouds: ${data.clouds.all}`
+        let p5=document.createElement("p");
+        p5.innerText=`Wind: deg: ${data.wind.deg} gust: ${data.wind.gust} speed: ${data.wind.speed}`;
+        container.append(image,name,p1,p2,p3,p4,p5)
+        let iframe=document.querySelector("#gmap_canvas");
+        iframe.src=`https://maps.google.com/maps?q=${city}&t=&z=13&ie=UTF8&iwloc=&output=embed`
+        
+
+
+
+    }
+    
+    
+
+        </script>
+</html>
