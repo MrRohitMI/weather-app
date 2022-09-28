@@ -6,9 +6,10 @@ Created a weather app where you can search any city's weather
 
 ## Features
 
-- Play functionality
-- Accurate result
+- Search functionality
+- Good looking UI
 - Understandable user interface
+- Accurate result
 
 ## Support
 
